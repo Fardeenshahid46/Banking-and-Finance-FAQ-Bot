@@ -5,7 +5,15 @@ from google.cloud import dialogflow
 import json
 from datetime import datetime
 from google.cloud.dialogflow_v2.types import TextInput, QueryInput
+from google.oauth2 import service_account
 
+# Load credentials from Streamlit secrets
+service_account_info = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+credentials = service_account.Credentials.from_service_account_info(service_account_info)
+
+# Create session client with credentials
+dialogflow_session_client = dialogflow.SessionsClient(credentials=credentials)
+PROJECT_ID = service_account_info["project_id"]
 # --- Fix AttrDict serialization issue ---
 creds_dict = dict(st.secrets["dialogflow"])  # Convert AttrDict to normal dict
 creds_str = creds_dict["credentials"] if "credentials" in creds_dict else json.dumps(creds_dict)
@@ -127,3 +135,4 @@ if st.sidebar.button("🗑️ Clear Chat"):
     st.session_state.chat_history = []
     st.session_state["input_text"] = ""
     st.rerun()
+
