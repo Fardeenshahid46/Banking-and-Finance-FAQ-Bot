@@ -7,9 +7,15 @@ from datetime import datetime
 from google.cloud.dialogflow_v2.types import TextInput, QueryInput
 from google.oauth2 import service_account
 
-# Load credentials from Streamlit secrets
-service_account_info = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
-credentials = service_account.Credentials.from_service_account_info(service_account_info)
+# Load credentials from secrets
+google_creds = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+
+# Save them temporarily for Google API to read
+with open("google_credentials.json", "w") as f:
+    json.dump(google_creds, f)
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google_credentials.json"
+
 
 # Create session client with credentials
 dialogflow_session_client = dialogflow.SessionsClient(credentials=credentials)
@@ -135,4 +141,5 @@ if st.sidebar.button("🗑️ Clear Chat"):
     st.session_state.chat_history = []
     st.session_state["input_text"] = ""
     st.rerun()
+
 
