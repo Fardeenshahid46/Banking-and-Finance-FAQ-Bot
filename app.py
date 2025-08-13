@@ -3,22 +3,7 @@ import streamlit as st
 import json
 from google.cloud import dialogflow_v2 as dialogflow
 
-
 dialogflow_creds = json.loads(st.secrets["dialogflow"]["credentials"])
-session_client = dialogflow.SessionsClient(credentials=dialogflow_creds)
-
-creds_str = st.secrets["dialogflow"]["credentials"]
-dialogflow_creds = json.loads(creds_str)
-try:
-    dialogflow_creds = json.loads(st.secrets["dialogflow"]["credentials"])
-    st.success("Dialogflow credentials loaded successfully!")
-except KeyError:
-    st.error("Dialogflow secrets not found. Please check your secrets.toml.")
-except json.JSONDecodeError:
-    st.error("Failed to parse Dialogflow credentials. Check JSON formatting.")
-
-dialogflow_creds = json.loads(st.secrets["dialogflow"]["credentials"])
-st.success("Dialogflow credentials loaded successfully!")
 
 # ---- CONFIG ----
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials.json"
@@ -86,6 +71,7 @@ for role, text in st.session_state.chat_history:
         <b>🤖 Bot:</b> {text}
         </div>
         """, unsafe_allow_html=True)
+
 
 
 
