@@ -3,8 +3,9 @@ import json
 import streamlit as st
 from google.cloud import dialogflow_v2 as dialogflow
 
+creds_str = st.secrets["dialogflow"]["credentials"]
+creds_dict = json.loads(creds_str)  
 
-creds_dict = json.loads(st.secrets["dialogflow"]["credentials"])
 with open("credentials.json", "w") as f:
     json.dump(creds_dict, f)
 
@@ -75,3 +76,4 @@ for role, text in st.session_state.chat_history:
         <b>🤖 Bot:</b> {text}
         </div>
         """, unsafe_allow_html=True)
+
