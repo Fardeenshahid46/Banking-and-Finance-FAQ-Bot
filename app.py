@@ -4,6 +4,10 @@ import tempfile
 import json
 from google.cloud import dialogflow_v2 as dialogflow
 
+service_account_info = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+
+# Dialogflow client initialize
+client = dialogflow.SessionsClient.from_service_account_info(service_account_info)
 # --- Load Google credentials from Streamlit secrets ---
 if "GOOGLE_APPLICATION_CREDENTIALS_JSON" not in st.secrets:
     st.error("❌ GOOGLE_APPLICATION_CREDENTIALS_JSON not found in Streamlit secrets.")
@@ -86,3 +90,4 @@ if st.button("Send") and user_input.strip():
     st.session_state.messages.append({"role": "bot", "text": bot_reply})
     st.session_state.input = ""  # clear input after sending
     st.experimental_rerun()
+
