@@ -14,6 +14,8 @@ except KeyError:
 except json.JSONDecodeError:
     st.error("Failed to parse Dialogflow credentials. Check JSON formatting.")
 
+dialogflow_creds = json.loads(st.secrets["dialogflow"]["credentials"])
+st.success("Dialogflow credentials loaded successfully!")
 
 # ---- CONFIG ----
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials.json"
@@ -81,5 +83,6 @@ for role, text in st.session_state.chat_history:
         <b>🤖 Bot:</b> {text}
         </div>
         """, unsafe_allow_html=True)
+
 
 
