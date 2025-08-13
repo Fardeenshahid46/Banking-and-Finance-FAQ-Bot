@@ -1,4 +1,5 @@
 💬 Banking & Finance FAQ Chatbot
+
 An AI-powered chatbot built with Dialogflow ES and Streamlit that answers frequently asked questions about banking and finance.
 It helps automate customer support by instantly responding to user queries like account details, loan information, interest rates, and more.
 
