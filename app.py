@@ -1,15 +1,16 @@
 import os
-import streamlit as st
 import json
+import streamlit as st
 from google.cloud import dialogflow_v2 as dialogflow
 
+
+creds_dict = json.loads(st.secrets["dialogflow"]["credentials"])
 with open("credentials.json", "w") as f:
-    f.write(st.secrets["dialogflow"]["credentials"])
+    json.dump(creds_dict, f)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials.json"
 
 # ---- CONFIG ----
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials.json"
 PROJECT_ID = "bankingfinancebot-lfrs"
 SESSION_ID = "banking-faq-session"
 
@@ -53,7 +54,7 @@ def submit():
         bot_response = detect_intent_text(PROJECT_ID, SESSION_ID, user_msg)
         st.session_state.chat_history.append(("You", user_msg))
         st.session_state.chat_history.append(("Bot", bot_response))
-    st.session_state.input_text = ""  # safe clear here
+    st.session_state.input_text = ""  # safe clear
 
 # ---- Chat UI ----
 st.markdown("<h2 style='text-align: center; color: #2E86C1;'>💬 Banking & Finance FAQ Chatbot</h2>", unsafe_allow_html=True)
@@ -74,9 +75,3 @@ for role, text in st.session_state.chat_history:
         <b>🤖 Bot:</b> {text}
         </div>
         """, unsafe_allow_html=True)
-
-
-
-
-
-
